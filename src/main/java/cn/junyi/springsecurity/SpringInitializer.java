@@ -31,6 +31,7 @@ public class SpringInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new String[]{"/"};
     }
 
+    //Filter
     @Override
     protected Filter[] getServletFilters() {//添加拦截器
         Filter[] singleton = {new CORSFilter()};
