@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 /**
  * Created by goujy on 2017/12/21.
  * * 资源服务器,哪些资源(请求) 访问受限;
+ * //@EnableResourceServer 特指用于Oauth2.0认证,
+ * 自动增加了一个类型为 OAuth2AuthenticationProcessingFilter 的过滤器链，
  *
  * @author goujy
  */

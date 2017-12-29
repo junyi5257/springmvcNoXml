@@ -17,7 +17,6 @@ import java.util.List;
  * https://www.cnblogs.com/maoxiaolv/p/5838680.html Oauth2.0详解;
  * @author goujy
  */
-//TODO Security Test Class
 public class SpringRestClient {
     public static final String REST_SERVICE_URI = "http://localhost:8080";
 

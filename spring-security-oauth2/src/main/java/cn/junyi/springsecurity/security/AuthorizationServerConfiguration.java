@@ -24,7 +24,15 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * Created by goujy on 2017/12/21.
  * //@EnableAuthorizationServer 注解来配置OAuth2.0 授权服务机制
  *
+ *  Spring OAuth2.0提供者实际上分为：
+ *      授权服务 AuthorizationService-------AuthorizationServerConfigurerAdapter.
+ *      资源服务 ResourceService -------ResourceServerConfigurerAdapter.
+ *
+ *
  * @author goujy
+ *
+ * //@EnableAuthorizationServer 注解来配置OAuth2.0 授权服务机制,特指OAuth2.0授权机制;
+ *
  */
 @Configuration
 @EnableAuthorizationServer
