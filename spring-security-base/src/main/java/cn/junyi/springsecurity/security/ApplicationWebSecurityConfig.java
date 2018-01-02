@@ -57,7 +57,7 @@ public class ApplicationWebSecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http
                 .authorizeRequests()
-                .antMatchers("/", "/base").permitAll()
+                .antMatchers("/", "/base","/base/*").permitAll()
                 .antMatchers("/user/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -103,7 +103,7 @@ public class ApplicationWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         //基于数据库的用户存储、认证,
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select name,password,true from user where user=?")
+                .usersByUsernameQuery("select name,password,true from user where name=?")
                 .authoritiesByUsernameQuery("SELECT NAME,r.rolename FROM user u\n" +
                         "LEFT JOIN user_role ur ON u.id = ur.user_id\n" +
                         "LEFT JOIN role r ON ur.role_id = r.id\n" +

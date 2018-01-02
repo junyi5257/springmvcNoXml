@@ -39,10 +39,10 @@ public class RootConfig {
     /**
      * SpringJDBC Template
      */
-    @Bean
+   /* @Bean
     public JdbcTemplate jdbcTemplate() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(dataSource());
         return jdbcTemplate;
-    }
+    }*/
 }
