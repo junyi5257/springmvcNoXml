@@ -16,17 +16,21 @@ import javax.sql.DataSource;
  * @author goujy
  */
 @Configuration
-@ComponentScan(basePackages={"cn.junyi.springsecurity"},excludeFilters={@ComponentScan.Filter(type= FilterType.ANNOTATION,value=EnableWebMvc.class)})
+@ComponentScan(basePackages = {"cn.junyi.springsecurity"}, excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)})
 public class RootConfig {
 
 
     /**
+     * 非数据库模式,可以不使用这样的连接方式;
+     * <p>
      * 注意这里的数据源注入问题,不要放到SpringMVC的类下面.
-     * @return
+     * 这里是用的是Druid数据库连接池,可以配置拦截器查看SQL运行效果;
+     *
+     * @return DataSource
      */
 
-    @Bean(destroyMethod="close")
-    public DataSource dataSource(){
+    @Bean(destroyMethod = "close")
+    public DataSource dataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName("com.mysql.jdbc.Driver");
         druidDataSource.setUrl("jdbc:mysql://59.110.217.87:3306/springbootdb");
@@ -38,11 +42,12 @@ public class RootConfig {
 
     /**
      * SpringJDBC Template
+     * Template可以被注入到Dao层,进行数据库的操作;
      */
-   /* @Bean
+    @Bean
     public JdbcTemplate jdbcTemplate() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(dataSource());
         return jdbcTemplate;
-    }*/
+    }
 }
