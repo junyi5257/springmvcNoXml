@@ -6,48 +6,49 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.junyi.springsecurity</groupId>
     <version>1.0-SNAPSHOT</version>
-    <artifactId>spring-security-noxml-base</artifactId>
+    <artifactId>spring-security-csrf</artifactId>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springframework.version>4.3.1.RELEASE</springframework.version>
-        <springsecurity.version>4.1.4.RELEASE</springsecurity.version>
+        <springframework.version>4.3.5.RELEASE</springframework.version>
+        <springsecurity.version>4.2.1.RELEASE</springsecurity.version>
         <springsecurityoauth2.version>2.0.12.RELEASE</springsecurityoauth2.version>
         <jackson.library>2.7.5</jackson.library>
     </properties>
     <dependencies>
+
+        <!--替换使用slf4j-->
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.25</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
 
-        <!-- Spring -->
 
+        <!-- Spring web-mvc中包含了Spring的基本要求
+          web-mvc: aop,beans,core,context,expression,web
+         -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${springframework.version}</version>
         </dependency>
 
-
-
-
-        <!-- Spring Security -->
+        <!-- Spring-Security-Web支持,单独添加
+             Spring-Security-Config,单独添加
+         -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -59,13 +60,14 @@
             <version>${springsecurity.version}</version>
         </dependency>
 
-        <!-- Spring Security OAuth2-->
-          <dependency>
-              <groupId>org.springframework.security.oauth</groupId>
-              <artifactId>spring-security-oauth2</artifactId>
-              <version>${springsecurityoauth2.version}</version>
-          </dependency>
 
+        <!-- Spring Security OAuth2,
+             如果使用Oauth2,单独添加Oauth2支持 -->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${springsecurityoauth2.version}</version>
+        </dependency>
 
         <!-- Jackson libraries -->
         <dependency>
@@ -83,6 +85,14 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
+            <!--
+                compile （编译范围） 默认
+                provided （已提供范围）
+                runtime （运行时范围）
+                test （测试范围）
+                system （系统范围）
+            -->
+            <scope>provided</scope>
         </dependency>
 
 
@@ -107,8 +117,7 @@
         </dependency>
 
 
-
-       <!--添加 spring-jdbc,druid 数据库连接池和mysql依赖;-->
+        <!--添加 spring-jdbc,druid 数据库连接池和mysql依赖;-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
@@ -144,8 +153,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>SpringSecurityOAuth2</finalName>
+        <finalName>SpringSecurityCsrf</finalName>
     </build>
-
 
 </project>
