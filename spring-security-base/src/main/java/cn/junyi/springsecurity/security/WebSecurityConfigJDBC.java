@@ -1,12 +1,14 @@
 package cn.junyi.springsecurity.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.junyi.springsecurity.model.Md5PasswordEncoder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.annotation.Resource;
@@ -29,6 +31,8 @@ import javax.sql.DataSource;
  *          Spring Security将会自动生成一个登陆页面和登出成功页面
  *          <p>
  *          配置不同的数据源，包括内存中,JDBC和自定义的UserServiceImpl
+ *
+ *          ☆☆☆☆☆将不使用的 WebSecurityConfig 的两个注解注释掉，即可☆☆☆☆☆
  */
 @EnableWebSecurity
 @Configuration
@@ -39,6 +43,15 @@ public class WebSecurityConfigJDBC extends WebSecurityConfigurerAdapter {
     @Resource
     DataSource dataSource;
 
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+
+        //这里我选择自定义的加密方式.实现PasswordEncoder接口即可;
+        return new Md5PasswordEncoder();
+
+        //springSecurity建议采用下面这种加密方式,更加安全,60位长度,SHA+随机盐加密方式;
+        //return new BCryptPasswordEncoder();
+    }
 
    /* @Autowired
     UserDao userDaoImpl;*/
@@ -103,7 +116,7 @@ public class WebSecurityConfigJDBC extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         //基于数据库的用户存储、认证,
-        auth.jdbcAuthentication().dataSource(dataSource)
+        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("select name,password,true from user where name=?")
                 .authoritiesByUsernameQuery("SELECT NAME,r.rolename FROM user u\n" +
                         "LEFT JOIN user_role ur ON u.id = ur.user_id\n" +

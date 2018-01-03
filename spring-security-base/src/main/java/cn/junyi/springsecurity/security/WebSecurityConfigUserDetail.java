@@ -39,9 +39,11 @@ import java.util.List;
  *          Spring Security将会自动生成一个登陆页面和登出成功页面
  *
  *          配置不同的数据源，包括内存中,JDBC和自定义的UserServiceImpl
+ *
+ *          ☆☆☆☆☆将不使用的 WebSecurityConfig 的两个注解注释掉，即可☆☆☆☆☆
  */
-@EnableWebSecurity
-@Configuration
+//@EnableWebSecurity
+//@Configuration
 public class WebSecurityConfigUserDetail extends WebSecurityConfigurerAdapter {
 
     @Autowired
