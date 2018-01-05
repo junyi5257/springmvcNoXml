@@ -28,13 +28,17 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @Configuration
 @EnableWebSecurity
 public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private ClientDetailsService clientDetailsService;
+
+    /**
+     * 为Oauth2.0提供的Autowired 方法,ClientDetailsService
+     */
 
 
 
     /**
      * 在内存中创建两个用户
+     * <p>
+     * 创建用户的方式有多种,
      *
      * @param auth auth
      * @throws Exception Exception
@@ -47,8 +51,42 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
+
     /**
-     * 设置获取token的url
+     *
+     第一种方式:
+    在使用@Autowired 注入的形式,可以不用关注具体的方法名称
+    只需要注意两点:
+    I: annotate the method with @Autowired
+    II:the method MUST be in a class annotated with one of the following :
+        @EnableWebSecurity,
+        @EnableWebMvcSecurity,
+        @EnableGlobalMethodSecurity, or
+        @EnableGlobalAuthentication
+
+    //好处:这种形式可以不用在 extends WebSecurityConfigurerAdapter 的类中;
+
+    @Autowired
+    public void antMethodName(AuthenticationManagerBuilder auth) throws Exception {
+         //DO SomeThing
+    }
+
+    第二种方式:
+     @Override
+     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
+     }
+
+
+    */
+
+    /**
+     * 设置允许请求的URL,不被权限拦截;
+     * /oauth/token 请求是默认的请求,
+     *
+     * 在 @see org.springframework.security.oauth2.provider.endpoint.TokenEndPoint类中,
+     *
+     *
      *
      * @param http http
      * @throws Exception Exception
@@ -67,33 +105,8 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    /**
-     * 实例化一个TokenStore，他的实现是InMemoryTokenStore，会把OAuth授权的token保存在内存中
-     *
-     * @return
-     */
-    @Bean
-    public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
-    }
 
-    @Bean
-    @Autowired
-    public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore) {
-        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
-        handler.setTokenStore(tokenStore);
-        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
-        handler.setClientDetailsService(clientDetailsService);
-        return handler;
-    }
 
-    @Bean
-    @Autowired
-    public ApprovalStore approvalStore(TokenStore tokenStore) throws Exception {
-        TokenApprovalStore store = new TokenApprovalStore();
-        store.setTokenStore(tokenStore);
-        return store;
-    }
 
 
 }

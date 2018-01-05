@@ -14,12 +14,41 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
  * 自动增加了一个类型为 OAuth2AuthenticationProcessingFilter 的过滤器链，
  *
  * @author goujy
+ *
+ *
+ *
+ *
+ *  //@EnableResourceServer --->注解中有@Import(ResourceServerConfiguration.class)类，
+ *  //  ResourceServerConfiguration类，extends WebSecurityConfigurerAdapter ，和普通的配置WebSecurity类似
+ *
+ *  //  ResourceServerConfiguration类， 在复写 void configure(HttpSecurity http)时【方法控制谁进谁要授权】，
+ *
+ *  //  创建了 ResourceServerSecurityConfigurer对象,
+ *
+ *      这个对象的方法中，有创建 OAuth2AuthenticationProcessingFilter
+ *      resourcesServerFilter = new OAuth2AuthenticationProcessingFilter();
+ *
+ *      resourcesServerFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
+ *      resourcesServerFilter.setAuthenticationManager(oauthAuthenticationManager);
+ *      和管理资源的 configure(HttpSecurity http) 方法;
+ *
+ *
+ *
+ *
+ *  //
+ *
  */
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     private static final String RESOURCE_ID = "my_rest_api";
 
+    /**
+     * 这里将资源管理起来;
+     *
+     *
+     * @param resources ResourceServerSecurityConfigurer
+     */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources.resourceId(RESOURCE_ID).stateless(false);
