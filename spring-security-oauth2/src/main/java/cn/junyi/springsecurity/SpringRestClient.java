@@ -27,7 +27,7 @@ public class SpringRestClient {
 
     public static final String QPM_ACCESS_TOKEN = "?access_token=";
 
-    /*
+    /**
      * Prepare HTTP Headers.
      */
     private static HttpHeaders getHeaders() {
@@ -36,7 +36,7 @@ public class SpringRestClient {
         return headers;
     }
 
-    /*
+    /**
      * Add HTTP Authorization header, using Basic-Authentication to send client-credentials.
      */
     private static HttpHeaders getHeadersWithClientCredentials() {
@@ -48,9 +48,14 @@ public class SpringRestClient {
         return headers;
     }
 
-    /*
+    /**
      * Send a POST request [on /oauth/token] to get an access-token,
       * which will then be send with each request.
+      * grant_type=password
+      * 采用密码形式,获取Token
+      *
+      *
+      *
      */
     @SuppressWarnings({"unchecked"})
     private static AuthTokenInfo sendTokenRequest() {
@@ -172,7 +177,8 @@ public class SpringRestClient {
 
     public static void main(String args[]) {
         AuthTokenInfo tokenInfo = sendTokenRequest();
-        /*listAllUsers(tokenInfo);
+        System.out.println(tokenInfo);
+       /**/ listAllUsers(tokenInfo);
 
         getUser(tokenInfo);
 
@@ -185,6 +191,6 @@ public class SpringRestClient {
         deleteUser(tokenInfo);
         listAllUsers(tokenInfo);
         deleteAllUsers(tokenInfo);
-        listAllUsers(tokenInfo);*/
+        listAllUsers(tokenInfo);
     }
 }

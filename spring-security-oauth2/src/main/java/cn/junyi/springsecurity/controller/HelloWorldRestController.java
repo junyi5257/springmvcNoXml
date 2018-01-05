@@ -8,9 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -117,4 +121,27 @@ public class HelloWorldRestController {
         userService.deleteAllUsers();
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
+
+    @Autowired
+    private AuthorizationServerEndpointsConfiguration endpoints;
+
+    /**
+     * ClientId:my-trusted-client
+     *
+     * @param clientId clientId
+     * @return String String
+     */
+    @GetMapping("/deleteToken")
+    public String deleteToken(@RequestParam String clientId) {
+        InMemoryTokenStore tokenStore = (InMemoryTokenStore) endpoints.getEndpointsConfigurer().getTokenStore();
+        Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientId(clientId);
+        if (tokens != null && tokens.size() > 0) {
+            for (OAuth2AccessToken accessToken : tokens) {
+                tokenStore.removeAccessToken(accessToken);
+            }
+        }
+        return "SUCCESS";
+    }
+
+
 }
