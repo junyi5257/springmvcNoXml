@@ -11,30 +11,29 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+
 /**
- * 认证服务器配置
+ * 认证授权服务器配置
  * Authorization ----授权
- *
- *eg：https://github.com/spring-projects/spring-security-oauth/tree/master/samples/oauth2
- *
- *
- *
+ * <p>
+ * eg：https://github.com/spring-projects/spring-security-oauth/tree/master/samples/oauth2
+ * <p>
+ * <p>
+ * <p>
  * Authentication ----认证;
  * Basic Authentication
- *
- *  https://www.cnblogs.com/xingxueliao/p/5911292.html
+ * <p>
+ * https://www.cnblogs.com/xingxueliao/p/5911292.html
  * Created by goujy on 2017/12/21.
  * //@EnableAuthorizationServer 注解来配置OAuth2.0 授权服务机制
- *
- *  Spring OAuth2.0提供者实际上分为：
- *      授权服务 AuthorizationService-------AuthorizationServerConfigurerAdapter.
- *      资源服务 ResourceService -------ResourceServerConfigurerAdapter.
- *
+ * <p>
+ * Spring OAuth2.0提供者实际上分为：
+ * 授权服务 AuthorizationService-------AuthorizationServerConfigurerAdapter.
+ * 资源服务 ResourceService -------ResourceServerConfigurerAdapter.
  *
  * @author goujy
- *
- * //@EnableAuthorizationServer 注解来配置OAuth2.0 授权服务机制,特指OAuth2.0授权机制;
- *
+ *         <p>
+ *         //@EnableAuthorizationServer 注解来配置OAuth2.0 授权服务机制,特指OAuth2.0授权机制;
  */
 @Configuration
 @EnableAuthorizationServer
@@ -45,8 +44,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private TokenStore tokenStore;
 
-   // @Autowired
-   // private UserApprovalHandler userApprovalHandler;
+    // @Autowired
+    // private UserApprovalHandler userApprovalHandler;
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -55,6 +54,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     /**
      * 用来配置客户端详情服务（ClientDetailsService），
      * 客户端详情信息在这里进行初始化，你能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息。
+     * <p>
+     * 这里可以自己定义一个ClientDetailService 服务;
+     * clients.withClientDetails(clientDetailsService);
+     *
      * @param clients clients
      * @throws Exception Exception
      */
@@ -82,27 +85,27 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .accessTokenValiditySeconds(6000);
 
 
-
-
-
-
     }
 
     /**
      * 用来配置令牌端点(Token Endpoint)的安全约束.
+     * 配置允许的哪些认证;
+     *
      * @param oauthServer oauthServer
      * @throws Exception Exception
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-
-       // oauthServer.realm(REALM + "/client");
+        // oauthServer.realm(REALM + "/client").allowFormAuthenticationForClients();
+        // 允许表单认证
+        oauthServer.allowFormAuthenticationForClients();
     }
 
     /**
      * 用来配置授权（authorizationManager）以及令牌（token）的访问端点
-     *
+     * <p>
      * 和令牌服务(token services)。
+     *
      * @param endpoints endpoints
      * @throws Exception Exception
      */
@@ -131,38 +134,38 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      *  Oauth2
      *
      *  function requestOauthToken(username, password) {
-            var success = false;
-            $.ajax({
-                    url: 'oauth/token',
-                    datatype: 'json',
-                    type: 'post',
-                    headers: {'Authorization': 'Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0'},
-                    contentType: 'application/x-www-form-urlencoded',
-                    async: false,
-                    data: {
-                        username: username,
-                        password: password,
-                        grant_type: 'password'
-            },
-            success: function (data) {
-                localStorage.setItem('token', data.access_token);
-                success = true;
-            },
-            error: function () {
-                removeOauthTokenFromStorage();
-            }
-        });
+     var success = false;
+     $.ajax({
+     url: 'oauth/token',
+     datatype: 'json',
+     type: 'post',
+     headers: {'Authorization': 'Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0'},
+     contentType: 'application/x-www-form-urlencoded',
+     async: false,
+     data: {
+     username: username,
+     password: password,
+     grant_type: 'password'
+     },
+     success: function (data) {
+     localStorage.setItem('token', data.access_token);
+     success = true;
+     },
+     error: function () {
+     removeOauthTokenFromStorage();
+     }
+     });
 
-            return success;
-        }
+     return success;
+     }
 
-    function getOauthTokenFromStorage() {
-        return localStorage.getItem('token');
-    }
+     function getOauthTokenFromStorage() {
+     return localStorage.getItem('token');
+     }
 
-    function removeOauthTokenFromStorage() {
-        return localStorage.removeItem('token');
-    }
+     function removeOauthTokenFromStorage() {
+     return localStorage.removeItem('token');
+     }
      */
 
 }

@@ -12,7 +12,8 @@
         <module>spring-security-base</module>
         <module>spring-security-csrf</module>
         <module>spring-security-token</module>
+        <module>spring-security-oauth2-tonr</module>
+        <module>springboot-security-oauth2</module>
     </modules>
-
 
 </project>

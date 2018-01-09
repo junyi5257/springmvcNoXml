@@ -32,7 +32,8 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     /**
      * 为Oauth2.0提供的Autowired 方法,ClientDetailsService
      */
-
+    @Autowired
+    private ClientDetailsService clientDetailsService;
 
 
     /**
@@ -49,9 +50,6 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("bill").password("abc123").roles("admin1").and()
                 .withUser("bob").password("abc123").roles("USER");
     }
-
-
-
     /**
      *
      第一种方式:
@@ -105,8 +103,34 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * 实例化一个TokenStore，他的实现是InMemoryTokenStore，会把OAuth授权的token保存在内存中
+     *
+     * @return
+     */
+    @Bean
+    public TokenStore tokenStore() {
+        return new InMemoryTokenStore();
+    }
 
+   /* @Bean
+    @Autowired
+    public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore) {
+        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
+        handler.setTokenStore(tokenStore);
+        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
+        handler.setClientDetailsService(clientDetailsService);
+        return handler;
+    }
 
+    @Bean
+    @Autowired
+    public ApprovalStore approvalStore(TokenStore tokenStore) throws Exception {
+        TokenApprovalStore store = new TokenApprovalStore();
+        store.setTokenStore(tokenStore);
+        return store;
+    }
+*/
 
 
 }

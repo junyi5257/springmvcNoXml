@@ -9,7 +9,8 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
 
 /**
  * Created by goujy on 2017/12/21.
- *
+ *  另外，启用全局方法安全性，如果我们想要使用它，
+ *  它将激活@PreFilter，@PostFilter，@PreAuthorize @PostAuthorize注释。
  * @author goujy
  */
 @Configuration

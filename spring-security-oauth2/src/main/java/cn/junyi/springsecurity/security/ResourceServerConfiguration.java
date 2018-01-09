@@ -13,6 +13,16 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
  * //@EnableResourceServer 特指用于Oauth2.0认证,
  * 自动增加了一个类型为 OAuth2AuthenticationProcessingFilter 的过滤器链，
  *
+ *
+ *  资源服务器承载资源[REST API]，客户端感兴趣的资源位于  /user/ 。
+ * //  @EnableResourceServer注释，适用在OAuth2资源服务器，
+ * 实现了Spring Security的过滤器验证的请求传入OAuth2令牌。
+ * ResourceServerConfigurerAdapter类实现 ResourceServerConfigurer 提供的方法
+ * 来调整 OAuth2安全保护的访问规则和路径。
+ *
+ *
+ *
+ *
  * @author goujy
  *
  *
@@ -32,15 +42,14 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
  *      resourcesServerFilter.setAuthenticationManager(oauthAuthenticationManager);
  *      和管理资源的 configure(HttpSecurity http) 方法;
  *
- *
- *
- *
  *  //
  *
  */
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
+    //将类型命名,可以有多个类似的控制;
     private static final String RESOURCE_ID = "my_rest_api";
 
     /**
